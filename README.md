@@ -1,14 +1,14 @@
-# 🔥 모닥불 (Ember) Admin Dashboard
+# Ember Admin
 
-Ember 서비스 관리를 위한 어드민 대시보드입니다.
+Ember 서비스 어드민 대시보드 - React + Vite + React Router
 
 ## 기술 스택
 
-- **Framework**: Next.js 15 (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **Auth & DB**: Supabase (service_role)
-- **Deploy**: Vercel
+- React 19 + TypeScript
+- Vite
+- Tailwind CSS v4
+- React Router v7
+- Supabase (Auth + DB)
 
 ## 시작하기
 
@@ -17,17 +17,15 @@ Ember 서비스 관리를 위한 어드민 대시보드입니다.
 pnpm install
 
 # 환경변수 설정
-cp .env.example .env.local
+cp .env.example .env
 
-# 개발 서버 실행
+# 개발 서버
 pnpm dev
+
+# 빌드
+pnpm build
 ```
 
-## 환경변수
+## 배포
 
-| 변수 | 설명 |
-|------|------|
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase 프로젝트 URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key (admin 전용) |
-| `ADMIN_EMAILS` | 어드민 이메일 목록 (쉼표 구분) |
+GitHub Pages로 자동 배포됩니다 (`main` 브랜치 push 시).

@@ -1,26 +1,18 @@
-"use client";
+import { useAuth } from "../hooks/useAuth";
 
-import { createClient } from "@/lib/supabase-client";
-import { useRouter } from "next/navigation";
+interface HeaderProps {
+  title: string;
+}
 
-export const Header = () => {
-  const router = useRouter();
-
-  const handleLogout = async () => {
-    const supabase = createClient();
-    await supabase.auth.signOut();
-    router.push("/login");
-  };
+export const Header = ({ title }: HeaderProps) => {
+  const { session } = useAuth();
 
   return (
-    <header className="flex h-16 items-center justify-between border-b border-ember-800/30 bg-white px-6">
-      <div />
-      <button
-        onClick={handleLogout}
-        className="rounded-lg bg-ember-900 px-4 py-2 text-sm text-ember-100 transition-colors hover:bg-ember-800"
-      >
-        로그아웃
-      </button>
+    <header className="flex items-center justify-between border-b border-[var(--ember-border)] bg-[var(--ember-card)] px-6 py-4">
+      <h1 className="text-xl font-bold text-[var(--ember-text)]">{title}</h1>
+      <div className="text-sm text-[var(--ember-muted)]">
+        {session?.user?.email}
+      </div>
     </header>
   );
 };

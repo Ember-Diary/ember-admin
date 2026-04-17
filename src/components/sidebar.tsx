@@ -1,55 +1,55 @@
-"use client";
-
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { NavLink } from "react-router";
+import { useAuth } from "../hooks/useAuth";
 
 const NAV_ITEMS = [
-  { href: "/", label: "대시보드", icon: "📊" },
-  { href: "/users", label: "유저 관리", icon: "👥" },
-  { href: "/emotions", label: "감정 태그", icon: "🎨" },
-  { href: "/fortunes", label: "운세", icon: "🔮" },
-  { href: "/settings", label: "설정", icon: "⚙️" },
+  { to: "/", label: "대시보드", icon: "📊" },
+  { to: "/users", label: "유저 관리", icon: "👥" },
+  { to: "/emotions", label: "감정 태그", icon: "🎭" },
+  { to: "/fortunes", label: "운세", icon: "🔮" },
+  { to: "/settings", label: "설정", icon: "⚙️" },
 ] as const;
 
 export const Sidebar = () => {
-  const pathname = usePathname();
+  const { signOut } = useAuth();
 
   return (
-    <aside className="flex h-screen w-64 flex-col bg-ember-900 text-ember-100">
-      <div className="flex h-16 items-center px-6">
-        <h1 className="text-xl font-bold text-ember-300">🔥 모닥불 Admin</h1>
+    <aside className="flex h-screen w-60 flex-col bg-[var(--ember-sidebar)] p-4">
+      <div className="mb-8 flex items-center gap-2 px-2">
+        <span className="text-2xl">🔥</span>
+        <span className="text-lg font-bold text-[var(--ember-highlight)]">
+          Ember Admin
+        </span>
       </div>
 
-      <nav className="flex-1 px-3 py-4">
-        <ul className="space-y-1">
-          {NAV_ITEMS.map(({ href, label, icon }) => {
-            const isActive =
-              href === "/" ? pathname === "/" : pathname.startsWith(href);
-
-            return (
-              <li key={href}>
-                <Link
-                  href={href}
-                  className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
-                    isActive
-                      ? "bg-ember-800 text-ember-300"
-                      : "text-ember-100/70 hover:bg-ember-800/50 hover:text-ember-100"
-                  )}
-                >
-                  <span>{icon}</span>
-                  <span>{label}</span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+      <nav className="flex flex-1 flex-col gap-1">
+        {NAV_ITEMS.map(({ to, label, icon }) => (
+          <NavLink
+            key={to}
+            to={to}
+            end={to === "/"}
+            className={({ isActive }) =>
+              [
+                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+                isActive
+                  ? "bg-[var(--ember-accent)] text-white font-medium"
+                  : "text-[var(--ember-text)] hover:bg-[var(--ember-border)]",
+              ].join(" ")
+            }
+          >
+            <span>{icon}</span>
+            <span>{label}</span>
+          </NavLink>
+        ))}
       </nav>
 
-      <div className="border-t border-ember-800 px-6 py-4">
-        <p className="text-xs text-ember-100/50">Ember Admin v0.1.0</p>
-      </div>
+      <button
+        type="button"
+        onClick={signOut}
+        className="mt-auto flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-[var(--ember-muted)] transition-colors hover:bg-[var(--ember-border)] hover:text-[var(--ember-text)]"
+      >
+        <span>🚪</span>
+        <span>로그아웃</span>
+      </button>
     </aside>
   );
 };

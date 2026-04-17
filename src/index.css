@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+:root {
+  --ember-bg: #1e1410;
+  --ember-sidebar: #3a2418;
+  --ember-accent: #d4724a;
+  --ember-highlight: #ebb97a;
+  --ember-text: #f5ebd8;
+  --ember-muted: #8a7568;
+  --ember-card: #2a1a12;
+  --ember-border: #4a3428;
+}
+
+body {
+  margin: 0;
+  background-color: var(--ember-bg);
+  color: var(--ember-text);
+  font-family:
+    "Pretendard Variable",
+    Pretendard,
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}

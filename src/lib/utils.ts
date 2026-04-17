@@ -1,30 +1,25 @@
 /**
- * 클래스 이름을 조건부로 결합하는 유틸리티
+ * 날짜를 YYYY-MM-DD 형식으로 포맷합니다.
  */
-export const cn = (...classes: (string | boolean | undefined | null)[]): string =>
-  classes.filter(Boolean).join(" ");
-
-/**
- * 날짜를 한국어 형식으로 포맷
- */
-export const formatDate = (date: string): string =>
-  new Intl.DateTimeFormat("ko-KR", {
+export const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("ko-KR", {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
-  }).format(new Date(date));
+  });
+};
 
 /**
- * 숫자를 한국어 형식으로 포맷 (1,000 등)
+ * 클래스명을 조건부로 결합합니다.
  */
-export const formatNumber = (num: number): string =>
-  new Intl.NumberFormat("ko-KR").format(num);
+export const cn = (...classes: (string | boolean | undefined)[]): string =>
+  classes.filter(Boolean).join(" ");
 
 /**
- * 환경변수에서 어드민 이메일 목록을 가져옴
+ * 어드민 이메일 목록을 환경변수에서 파싱합니다.
  */
-export const getAdminEmails = (): string[] =>
-  (process.env.ADMIN_EMAILS ?? "")
-    .split(",")
-    .map((email) => email.trim())
-    .filter(Boolean);
+export const getAdminEmails = (): string[] => {
+  const emails = import.meta.env.VITE_ADMIN_EMAILS as string | undefined;
+  return emails?.split(",").map((e) => e.trim()) ?? [];
+};

@@ -1,29 +1,36 @@
 export interface User {
   id: string;
   email: string;
-  nickname: string;
-  subscription: "free" | "premium";
+  name: string | null;
+  nickname: string | null;
+  birth_date: string | null;
+  subscription_tier: 'free' | 'premium';
+  onboarding_completed: boolean;
   created_at: string;
 }
 
 export interface EmotionTag {
   id: string;
   name: string;
-  color: string;
-  created_at: string;
+  category: 'positive' | 'negative' | 'neutral';
+  icon: string | null;
+  color: string | null;
 }
 
-export interface Fortune {
+export interface DailyFortune {
   id: string;
-  user_id: string;
-  content: string;
-  emotion_tag: string;
+  birth_date: string;
+  fortune_date: string;
+  emotion_score: number | null;
+  relation_score: number | null;
+  execution_score: number | null;
+  overall_message: string | null;
   created_at: string;
 }
 
 export interface DashboardStats {
-  totalUsers: number;
-  activeSessions: number;
-  diaryCount: number;
-  fortuneCount: number;
+  totalUsers: number | null;
+  activeSessions: number | null;
+  diaryCount: number | null;
+  fortuneCount: number | null;
 }

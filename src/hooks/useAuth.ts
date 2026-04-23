@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import type { Session } from "@supabase/supabase-js";
-import { supabase } from "../lib/supabase";
-import { getAdminEmails } from "../lib/utils";
+import type { Session } from '@supabase/supabase-js';
+import { useEffect, useState } from 'react';
+import { supabase } from '../lib/supabase';
+import { getAdminEmails } from '../lib/utils';
 
 interface AuthState {
   session: Session | null;

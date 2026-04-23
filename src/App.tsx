@@ -1,12 +1,13 @@
-import { BrowserRouter, Routes, Route } from "react-router";
-import { Layout } from "./components/Layout";
-import { ProtectedRoute } from "./components/ProtectedRoute";
-import { Login } from "./pages/Login";
-import { Dashboard } from "./pages/Dashboard";
-import { Users } from "./pages/Users";
-import { Emotions } from "./pages/Emotions";
-import { Fortunes } from "./pages/Fortunes";
-import { Settings } from "./pages/Settings";
+import { BrowserRouter, Route, Routes } from 'react-router';
+import { Layout } from './components/Layout';
+import { ProtectedRoute } from './components/ProtectedRoute';
+import { Dashboard } from './pages/Dashboard';
+import { Emotions } from './pages/Emotions';
+import { Fortunes } from './pages/Fortunes';
+import { Legal } from './pages/Legal';
+import { Login } from './pages/Login';
+import { Settings } from './pages/Settings';
+import { Users } from './pages/Users';
 
 export const App = () => {
   return (
@@ -24,6 +25,7 @@ export const App = () => {
           <Route path="/users" element={<Users />} />
           <Route path="/emotions" element={<Emotions />} />
           <Route path="/fortunes" element={<Fortunes />} />
+          <Route path="/legal" element={<Legal />} />
           <Route path="/settings" element={<Settings />} />
         </Route>
       </Routes>

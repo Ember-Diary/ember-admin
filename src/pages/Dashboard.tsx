@@ -1,30 +1,30 @@
-import { useEffect, useState } from "react";
-import { Header } from "../components/Header";
-import type { DashboardStats } from "../types";
-import { supabase } from "../lib/supabase";
+import { useEffect, useState } from 'react';
+import { Header } from '../components/Header';
+import { supabase } from '../lib/supabase';
+import type { DashboardStats } from '../types';
 
 const STAT_CARDS = [
-  { key: "totalUsers" as const, label: "총 유저", icon: "👥", rlsRestricted: true },
-  { key: "activeSessions" as const, label: "활성 세션", icon: "🟢", rlsRestricted: true },
-  { key: "diaryCount" as const, label: "일기 수", icon: "📝", rlsRestricted: true },
-  { key: "fortuneCount" as const, label: "운세 생성 수 (오늘)", icon: "🔮", rlsRestricted: false },
+  { key: 'totalUsers' as const, label: '총 유저', icon: '👥', rlsRestricted: true },
+  { key: 'activeSessions' as const, label: '활성 세션', icon: '🟢', rlsRestricted: true },
+  { key: 'diaryCount' as const, label: '일기 수', icon: '📝', rlsRestricted: true },
+  { key: 'fortuneCount' as const, label: '운세 생성 수 (오늘)', icon: '🔮', rlsRestricted: false },
 ];
 
-const today = new Date().toISOString().split("T")[0];
+const today = new Date().toISOString().split('T')[0];
 
 const fetchDashboardStats = async (): Promise<DashboardStats> => {
   const [profilesRes, sessionsRes, diariesRes, fortunesRes] = await Promise.all([
-    supabase.from("profiles").select("*", { count: "exact", head: true }),
+    supabase.from('profiles').select('*', { count: 'exact', head: true }),
     supabase
-      .from("chat_sessions")
-      .select("*", { count: "exact", head: true })
-      .eq("session_date", today)
-      .eq("status", "active"),
-    supabase.from("diaries").select("*", { count: "exact", head: true }),
+      .from('chat_sessions')
+      .select('*', { count: 'exact', head: true })
+      .eq('session_date', today)
+      .eq('status', 'active'),
+    supabase.from('diaries').select('*', { count: 'exact', head: true }),
     supabase
-      .from("daily_fortunes")
-      .select("*", { count: "exact", head: true })
-      .eq("fortune_date", today),
+      .from('daily_fortunes')
+      .select('*', { count: 'exact', head: true })
+      .eq('fortune_date', today),
   ]);
 
   return {
@@ -51,10 +51,10 @@ export const Dashboard = () => {
   }, []);
 
   const renderValue = (key: keyof DashboardStats, rlsRestricted: boolean) => {
-    if (loading) return "...";
+    if (loading) return '...';
     const value = stats[key];
     if (value === null || value === 0) {
-      return rlsRestricted ? "RLS 제한" : "0";
+      return rlsRestricted ? 'RLS 제한' : '0';
     }
     return value.toLocaleString();
   };
@@ -70,9 +70,7 @@ export const Dashboard = () => {
               className="rounded-xl border border-[var(--ember-border)] bg-[var(--ember-card)] p-5"
             >
               <div className="flex items-center justify-between">
-                <span className="text-sm text-[var(--ember-muted)]">
-                  {label}
-                </span>
+                <span className="text-sm text-[var(--ember-muted)]">{label}</span>
                 <span className="text-xl">{icon}</span>
               </div>
               <div className="mt-2 text-2xl font-bold text-[var(--ember-text)]">

@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { Header } from "../components/Header";
-import type { DailyFortune } from "../types";
-import { supabase } from "../lib/supabase";
+import { useEffect, useState } from 'react';
+import { Header } from '../components/Header';
+import { supabase } from '../lib/supabase';
+import type { DailyFortune } from '../types';
 
-const today = new Date().toISOString().split("T")[0];
+const today = new Date().toISOString().split('T')[0];
 
 interface GroupedFortunes {
   birthDate: string;
@@ -24,7 +24,7 @@ const groupByBirthDate = (fortunes: DailyFortune[]): GroupedFortunes[] => {
 
 const ScoreBadge = ({ label, score }: { label: string; score: number | null }) => (
   <span className="inline-flex items-center gap-1 rounded-full bg-[var(--ember-accent)]/10 px-3 py-0.5 text-xs font-medium text-[var(--ember-accent)]">
-    {label}: {score !== null ? score : "-"}
+    {label}: {score !== null ? score : '-'}
   </span>
 );
 
@@ -37,10 +37,12 @@ export const Fortunes = () => {
     const fetchFortunes = async () => {
       setLoading(true);
       const { data } = await supabase
-        .from("daily_fortunes")
-        .select("id, birth_date, fortune_date, emotion_score, relation_score, execution_score, overall_message, created_at")
-        .eq("fortune_date", selectedDate)
-        .order("birth_date");
+        .from('daily_fortunes')
+        .select(
+          'id, birth_date, fortune_date, emotion_score, relation_score, execution_score, overall_message, created_at',
+        )
+        .eq('fortune_date', selectedDate)
+        .order('birth_date');
 
       setGroups(groupByBirthDate(data ?? []));
       setLoading(false);
@@ -54,8 +56,11 @@ export const Fortunes = () => {
       <Header title="운세 모니터링" />
       <div className="p-6">
         <div className="mb-6 flex items-center gap-3">
-          <label className="text-sm text-[var(--ember-muted)]">날짜:</label>
+          <label htmlFor="fortune-date" className="text-sm text-[var(--ember-muted)]">
+            날짜:
+          </label>
           <input
+            id="fortune-date"
             type="date"
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
@@ -88,7 +93,7 @@ export const Fortunes = () => {
                         <ScoreBadge label="실행" score={fortune.execution_score} />
                       </div>
                       <p className="text-sm leading-relaxed text-[var(--ember-text)]">
-                        {fortune.overall_message ?? "메시지 없음"}
+                        {fortune.overall_message ?? '메시지 없음'}
                       </p>
                     </div>
                   ))}

@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { Header } from "../components/Header";
-import type { User } from "../types";
-import { formatDate } from "../lib/utils";
-import { supabase } from "../lib/supabase";
+import { useEffect, useState } from 'react';
+import { Header } from '../components/Header';
+import { supabase } from '../lib/supabase';
+import { formatDate } from '../lib/utils';
+import type { User } from '../types';
 
 export const Users = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -12,9 +12,11 @@ export const Users = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       const { data, error: fetchError } = await supabase
-        .from("profiles")
-        .select("id, email, name, nickname, birth_date, subscription_tier, onboarding_completed, created_at")
-        .order("created_at", { ascending: false });
+        .from('profiles')
+        .select(
+          'id, email, name, nickname, birth_date, subscription_tier, onboarding_completed, created_at',
+        )
+        .order('created_at', { ascending: false });
 
       if (fetchError) {
         setError(fetchError.message);
@@ -22,7 +24,9 @@ export const Users = () => {
       } else {
         setUsers(data ?? []);
         if ((data ?? []).length === 0) {
-          setError("RLS 정책으로 인해 전체 유저 목록을 조회할 수 없습니다. 본인 프로필만 표시됩니다.");
+          setError(
+            'RLS 정책으로 인해 전체 유저 목록을 조회할 수 없습니다. 본인 프로필만 표시됩니다.',
+          );
         }
       }
       setLoading(false);
@@ -51,18 +55,10 @@ export const Users = () => {
             <table className="w-full text-left text-sm">
               <thead className="bg-[var(--ember-sidebar)]">
                 <tr>
-                  <th className="px-4 py-3 font-medium text-[var(--ember-muted)]">
-                    이메일
-                  </th>
-                  <th className="px-4 py-3 font-medium text-[var(--ember-muted)]">
-                    닉네임
-                  </th>
-                  <th className="px-4 py-3 font-medium text-[var(--ember-muted)]">
-                    구독
-                  </th>
-                  <th className="px-4 py-3 font-medium text-[var(--ember-muted)]">
-                    가입일
-                  </th>
+                  <th className="px-4 py-3 font-medium text-[var(--ember-muted)]">이메일</th>
+                  <th className="px-4 py-3 font-medium text-[var(--ember-muted)]">닉네임</th>
+                  <th className="px-4 py-3 font-medium text-[var(--ember-muted)]">구독</th>
+                  <th className="px-4 py-3 font-medium text-[var(--ember-muted)]">가입일</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[var(--ember-border)]">
@@ -71,18 +67,16 @@ export const Users = () => {
                     key={user.id}
                     className="bg-[var(--ember-card)] transition-colors hover:bg-[var(--ember-border)]"
                   >
+                    <td className="px-4 py-3 text-[var(--ember-text)]">{user.email}</td>
                     <td className="px-4 py-3 text-[var(--ember-text)]">
-                      {user.email}
-                    </td>
-                    <td className="px-4 py-3 text-[var(--ember-text)]">
-                      {user.nickname ?? user.name ?? "-"}
+                      {user.nickname ?? user.name ?? '-'}
                     </td>
                     <td className="px-4 py-3">
                       <span
                         className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${
-                          user.subscription_tier === "premium"
-                            ? "bg-[var(--ember-highlight)]/20 text-[var(--ember-highlight)]"
-                            : "bg-[var(--ember-muted)]/20 text-[var(--ember-muted)]"
+                          user.subscription_tier === 'premium'
+                            ? 'bg-[var(--ember-highlight)]/20 text-[var(--ember-highlight)]'
+                            : 'bg-[var(--ember-muted)]/20 text-[var(--ember-muted)]'
                         }`}
                       >
                         {user.subscription_tier}

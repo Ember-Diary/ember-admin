@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { Header } from "../components/Header";
-import { supabase } from "../lib/supabase";
+import { useEffect, useState } from 'react';
+import { Header } from '../components/Header';
+import { supabase } from '../lib/supabase';
 
-type DocumentType = "privacy_policy" | "terms_of_service";
+type DocumentType = 'privacy_policy' | 'terms_of_service';
 
 type LegalDocument = {
   id: string;
@@ -14,28 +14,26 @@ type LegalDocument = {
 };
 
 const TAB_LABELS: Record<DocumentType, string> = {
-  privacy_policy: "개인정보처리방침",
-  terms_of_service: "서비스 이용약관",
+  privacy_policy: '개인정보처리방침',
+  terms_of_service: '서비스 이용약관',
 };
 
 export const Legal = () => {
   const [docs, setDocs] = useState<LegalDocument[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [activeTab, setActiveTab] = useState<DocumentType>("privacy_policy");
-  const [content, setContent] = useState("");
-  const [version, setVersion] = useState("");
+  const [activeTab, setActiveTab] = useState<DocumentType>('privacy_policy');
+  const [content, setContent] = useState('');
+  const [version, setVersion] = useState('');
   const [showPreview, setShowPreview] = useState(false);
 
   const fetchDocs = async () => {
-    const { data } = await supabase
-      .from("legal_documents")
-      .select("*")
-      .order("doc_type");
+    const { data } = await supabase.from('legal_documents').select('*').order('doc_type');
     setDocs(data ?? []);
     setLoading(false);
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: fetchDocs uses state setters only, safe to call once on mount
   useEffect(() => {
     fetchDocs();
   }, []);
@@ -51,13 +49,13 @@ export const Legal = () => {
   const handleSave = async () => {
     setSaving(true);
     const { error } = await supabase
-      .from("legal_documents")
+      .from('legal_documents')
       .update({ content, doc_version: version })
-      .eq("doc_type", activeTab);
+      .eq('doc_type', activeTab);
 
     if (!error) {
       await fetchDocs();
-      alert("저장되었습니다.");
+      alert('저장되었습니다.');
     } else {
       alert(`저장 실패: ${error.message}`);
     }
@@ -77,11 +75,11 @@ export const Legal = () => {
               type="button"
               onClick={() => setActiveTab(type)}
               className={[
-                "rounded-lg px-4 py-2 text-sm font-medium transition-colors",
+                'rounded-lg px-4 py-2 text-sm font-medium transition-colors',
                 activeTab === type
-                  ? "bg-[var(--ember-accent)] text-white"
-                  : "bg-[var(--ember-card)] text-[var(--ember-muted)] hover:bg-[var(--ember-border)]",
-              ].join(" ")}
+                  ? 'bg-[var(--ember-accent)] text-white'
+                  : 'bg-[var(--ember-card)] text-[var(--ember-muted)] hover:bg-[var(--ember-border)]',
+              ].join(' ')}
             >
               {TAB_LABELS[type]}
             </button>
@@ -104,8 +102,7 @@ export const Legal = () => {
               </label>
               {activeDoc && (
                 <span className="text-xs text-[var(--ember-muted)]">
-                  최종 수정:{" "}
-                  {new Date(activeDoc.updated_at).toLocaleString("ko-KR")}
+                  최종 수정: {new Date(activeDoc.updated_at).toLocaleString('ko-KR')}
                 </span>
               )}
               <div className="ml-auto flex gap-2">
@@ -114,7 +111,7 @@ export const Legal = () => {
                   onClick={() => setShowPreview(!showPreview)}
                   className="rounded-lg border border-[var(--ember-border)] px-4 py-2 text-sm text-[var(--ember-text)] transition-colors hover:bg-[var(--ember-border)]"
                 >
-                  {showPreview ? "편집" : "미리보기"}
+                  {showPreview ? '편집' : '미리보기'}
                 </button>
                 <button
                   type="button"
@@ -122,7 +119,7 @@ export const Legal = () => {
                   disabled={saving}
                   className="rounded-lg bg-[var(--ember-accent)] px-6 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50"
                 >
-                  {saving ? "저장 중..." : "저장"}
+                  {saving ? '저장 중...' : '저장'}
                 </button>
               </div>
             </div>
@@ -131,6 +128,7 @@ export const Legal = () => {
               <div className="min-h-[500px] rounded-lg border border-[var(--ember-border)] bg-[var(--ember-card)] p-6">
                 <div
                   className="prose prose-invert max-w-none text-[var(--ember-text)]"
+                  // biome-ignore lint/security/noDangerouslySetInnerHtml: markdown preview requires innerHTML rendering
                   dangerouslySetInnerHTML={{
                     __html: markdownToHtml(content),
                   }}
@@ -154,14 +152,12 @@ export const Legal = () => {
 /** 간단한 마크다운 → HTML 변환 (미리보기용) */
 const markdownToHtml = (md: string): string =>
   md
-    .replace(/^### (.+)$/gm, "<h3>$1</h3>")
-    .replace(/^## (.+)$/gm, "<h2>$1</h2>")
-    .replace(/^# (.+)$/gm, "<h1>$1</h1>")
-    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-    .replace(/^- (.+)$/gm, "<li>$1</li>")
-    .replace(/(<li>.*<\/li>)/gs, "<ul>$1</ul>")
-    .replace(/^---$/gm, "<hr />")
-    .replace(/\n{2,}/g, "</p><p>")
-    .replace(/^(.+)$/gm, (_, line) =>
-      line.startsWith("<") ? line : `<p>${line}</p>`,
-    );
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/^- (.+)$/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
+    .replace(/^---$/gm, '<hr />')
+    .replace(/\n{2,}/g, '</p><p>')
+    .replace(/^(.+)$/gm, (_, line) => (line.startsWith('<') ? line : `<p>${line}</p>`));

@@ -1,40 +1,41 @@
-import { useEffect, useState } from "react";
-import { Header } from "../components/Header";
-import type { EmotionTag } from "../types";
-import { supabase } from "../lib/supabase";
+import { useEffect, useState } from 'react';
+import { Header } from '../components/Header';
+import { supabase } from '../lib/supabase';
+import type { EmotionTag } from '../types';
 
-type CategoryType = EmotionTag["category"];
+type CategoryType = EmotionTag['category'];
 
 const CATEGORY_LABELS: Record<CategoryType, string> = {
-  positive: "긍정",
-  negative: "부정",
-  neutral: "중립",
+  positive: '긍정',
+  negative: '부정',
+  neutral: '중립',
 };
 
 const CATEGORY_COLORS: Record<CategoryType, string> = {
-  positive: "#2ECC71",
-  negative: "#E74C3C",
-  neutral: "#95A5A6",
+  positive: '#2ECC71',
+  negative: '#E74C3C',
+  neutral: '#95A5A6',
 };
 
 export const Emotions = () => {
   const [tags, setTags] = useState<EmotionTag[]>([]);
   const [loading, setLoading] = useState(true);
-  const [newTag, setNewTag] = useState("");
-  const [newColor, setNewColor] = useState("#D4724A");
-  const [newCategory, setNewCategory] = useState<CategoryType>("neutral");
+  const [newTag, setNewTag] = useState('');
+  const [newColor, setNewColor] = useState('#D4724A');
+  const [newCategory, setNewCategory] = useState<CategoryType>('neutral');
   const [submitting, setSubmitting] = useState(false);
 
   const fetchTags = async () => {
     const { data } = await supabase
-      .from("emotion_tags")
-      .select("id, name, category, icon, color")
-      .order("name");
+      .from('emotion_tags')
+      .select('id, name, category, icon, color')
+      .order('name');
 
     setTags(data ?? []);
     setLoading(false);
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: fetchTags uses state setters only, safe to call once on mount
   useEffect(() => {
     fetchTags();
   }, []);
@@ -45,20 +46,20 @@ export const Emotions = () => {
 
     setSubmitting(true);
     const { data, error } = await supabase
-      .from("emotion_tags")
+      .from('emotion_tags')
       .insert({ name: trimmed, color: newColor, category: newCategory })
       .select()
       .single();
 
     if (!error && data) {
       setTags((prev) => [...prev, data]);
-      setNewTag("");
+      setNewTag('');
     }
     setSubmitting(false);
   };
 
   const handleDelete = async (id: string) => {
-    const { error } = await supabase.from("emotion_tags").delete().eq("id", id);
+    const { error } = await supabase.from('emotion_tags').delete().eq('id', id);
 
     if (!error) {
       setTags((prev) => prev.filter((tag) => tag.id !== id));
@@ -98,7 +99,7 @@ export const Emotions = () => {
             disabled={submitting}
             className="rounded-lg bg-[var(--ember-accent)] px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50"
           >
-            {submitting ? "추가 중..." : "추가"}
+            {submitting ? '추가 중...' : '추가'}
           </button>
         </div>
 
@@ -117,9 +118,7 @@ export const Emotions = () => {
                   className="inline-block h-3 w-3 rounded-full"
                   style={{ backgroundColor: tag.color ?? CATEGORY_COLORS[tag.category] }}
                 />
-                <span className="text-sm text-[var(--ember-text)]">
-                  {tag.name}
-                </span>
+                <span className="text-sm text-[var(--ember-text)]">{tag.name}</span>
                 <span className="text-xs text-[var(--ember-muted)]">
                   {CATEGORY_LABELS[tag.category]}
                 </span>

@@ -1,5 +1,5 @@
-import { Navigate } from "react-router";
-import { useAuth } from "../hooks/useAuth";
+import { Navigate } from 'react-router';
+import { useAuth } from '../hooks/useAuth';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -23,12 +23,8 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   if (!isAdmin) {
     return (
       <div className="flex h-screen flex-col items-center justify-center gap-4 bg-[var(--ember-bg)]">
-        <h1 className="text-2xl font-bold text-[var(--ember-accent)]">
-          접근 거부
-        </h1>
-        <p className="text-[var(--ember-muted)]">
-          어드민 권한이 필요합니다.
-        </p>
+        <h1 className="text-2xl font-bold text-[var(--ember-accent)]">접근 거부</h1>
+        <p className="text-[var(--ember-muted)]">어드민 권한이 필요합니다.</p>
       </div>
     );
   }

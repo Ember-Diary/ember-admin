@@ -6,6 +6,7 @@ import { Dashboard } from "./pages/Dashboard";
 import { Users } from "./pages/Users";
 import { Emotions } from "./pages/Emotions";
 import { Fortunes } from "./pages/Fortunes";
+import { Legal } from "./pages/Legal";
 import { Settings } from "./pages/Settings";
 
 export const App = () => {
@@ -24,6 +25,7 @@ export const App = () => {
           <Route path="/users" element={<Users />} />
           <Route path="/emotions" element={<Emotions />} />
           <Route path="/fortunes" element={<Fortunes />} />
+          <Route path="/legal" element={<Legal />} />
           <Route path="/settings" element={<Settings />} />
         </Route>
       </Routes>

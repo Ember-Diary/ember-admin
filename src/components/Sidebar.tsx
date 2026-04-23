@@ -6,6 +6,7 @@ const NAV_ITEMS = [
   { to: "/users", label: "유저 관리", icon: "👥" },
   { to: "/emotions", label: "감정 태그", icon: "🎭" },
   { to: "/fortunes", label: "운세", icon: "🔮" },
+  { to: "/legal", label: "약관 관리", icon: "📜" },
   { to: "/settings", label: "설정", icon: "⚙️" },
 ] as const;
 
